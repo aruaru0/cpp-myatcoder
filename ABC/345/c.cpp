@@ -8,26 +8,28 @@ int main()
 
     cin >> s;
 
-    int n = s.size();
-    int pls = 0;
     vector<int> cnt(26);
 
-    for (int i = 0; i < n; i++)
+    int pls = 0;
+
+    for (int i = 0; i < s.size(); i++)
     {
         int v = s[i] - 'a';
         cnt[v]++;
-        if (cnt[v] > 1)
+        if (cnt[v] >= 2)
         {
             pls = 1;
         }
     }
 
-    int tot = pls;
-    for (int i = 0; i < n; i++)
+    long long tot = pls;
+    int n = s.size();
+    for (int i = 0; i < s.size(); i++)
     {
         int v = s[i] - 'a';
-        tot += (n - i) - cnt[v];
+        tot += n - cnt[v];
         cnt[v]--;
+        n--;
     }
 
     cout << tot << endl;
