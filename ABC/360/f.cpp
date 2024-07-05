@@ -120,6 +120,7 @@ int main()
             t.apply(l, r, val);
         }
         S s = t.all_prod();
+        // cout << s.val << ' ' << s.y << endl;
         if (ans < s.val)
         {
             ans = s.val;
