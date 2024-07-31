@@ -4,10 +4,11 @@
 
 using namespace std;
 #define rep(i, n) for (int i = 0; i < (n); ++i)
+using ll = long long;
 
 int main()
 {
-    int n, x, y;
+    ll n, x, y;
     cin >> n >> x >> y;
 
     vector<int> a(n);
@@ -18,8 +19,7 @@ int main()
     sort(a.begin(), a.end(), greater<int>());
     sort(b.begin(), b.end(), greater<int>());
 
-    int cnt_a = 0, cnt_b = 0;
-    int tot_a = 0, tot_b = 0;
+    ll cnt_a = 0, tot_a = 0;
     rep(i, n)
     {
         tot_a += a[i];
@@ -29,6 +29,8 @@ int main()
             break;
         }
     }
+
+    ll cnt_b = 0, tot_b = 0;
     rep(i, n)
     {
         tot_b += b[i];
