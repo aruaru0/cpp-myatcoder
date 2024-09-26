@@ -3,79 +3,83 @@
 
 using namespace std;
 using ll = long long;
-using P = pair<int, ll>;
+using P = pair<int, int>;
 
 #define rep(i, n) for (int i = 0; i < (int)(n); i++)
 
 int main()
 {
-    int H, W, M;
-    cin >> H >> W >> M;
-    tuple<int, int, int> op[M];
-    rep(i, M)
+    int n, q;
+    cin >> n >> q;
+
+    auto uf = atcoder::dsu(n);
+    vector<vector<int>> g(n);
+
+    for (int i = 0; i < n; i++)
     {
-        int t, a, x;
-        cin >> t >> a >> x;
-        op[i] = make_tuple(t, a, x);
+        g[i].push_back(i);
     }
 
-    set<int> h;
-    set<int> w;
-    vector<ll> mp(210000);
-
-    mp[0] = (ll)H * W;
-
-    for (int i = M - 1; i >= 0; i--)
+    for (int qi = 0; qi < q; qi++)
     {
-        auto t = get<0>(op[i]);
-        auto a = get<1>(op[i]);
-        auto x = get<2>(op[i]);
-
-        // cout << ">" << t << " " << a << " " << x << endl;
+        int t;
+        cin >> t;
         if (t == 1)
         {
-            if (h.find(a) == h.end())
+            int u, v;
+            cin >> u >> v;
+            u--;
+            v--;
+            if (uf.same(u, v))
             {
-                int cnt = W - w.size();
-                if (cnt != 0)
-                {
-                    // cout << "H -> " << x << " " << cnt << endl;
-                    mp[0] -= cnt;
-                    mp[x] += cnt;
-                    h.insert(a);
-                }
+                continue;
             }
+            auto x = uf.leader(u), y = uf.leader(v);
+            vector<int> tmp;
+            for (auto e : g[x])
+                tmp.push_back(e);
+            for (auto e : g[y])
+                tmp.push_back(e);
+
+            // tmpを大きい順にソート
+            // sort(tmp.begin(), tmp.end(), greater<>());
+            sort(tmp.begin(), tmp.end(), [&](int a, int b)
+                 { return a > b; });
+            if (tmp.size() > 10)
+                tmp.resize(10);
+
+            g[x].clear();
+            g[y].clear();
+            uf.merge(u, v);
+            auto l = uf.leader(u);
+
+            g[l] = tmp;
+            // for (auto e : g)
+            // {
+            //     cout << '[';
+            //     for (auto v : e)
+            //     {
+            //         cout << v << " ";
+            //     }
+            //     cout << ']';
+            // }
+            // cout << endl;
         }
         else
         {
-            if (w.find(a) == w.end())
+            int u, k;
+            cin >> u >> k;
+            u--;
+            auto l = uf.leader(u);
+            if (g[l].size() < k)
             {
-                int cnt = H - h.size();
-                if (cnt != 0)
-                {
-                    // cout << "W -> " << x << " " << cnt << endl;
-                    mp[0] -= cnt;
-                    mp[x] += cnt;
-                    w.insert(a);
-                }
+                cout << -1 << endl;
+            }
+            else
+            {
+                cout << g[l][k - 1] + 1 << endl;
             }
         }
-        // cout << "HW " << h.size() << " " << w.size() << endl;
-    }
-
-    vector<P> ans;
-    for (int i = 0; i < 210000; i++)
-    {
-        if (mp[i] != 0)
-        {
-            ans.push_back(make_pair(i, mp[i]));
-        }
-    }
-
-    cout << ans.size() << endl;
-    for (auto e : ans)
-    {
-        cout << e.first << " " << e.second << endl;
     }
 
     return 0;
