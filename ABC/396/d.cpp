@@ -1,52 +1,54 @@
-#include <bits/stdc++.h>
-#include <atcoder/all>
+#include <iostream>
+#include <vector>
+#include <algorithm>
 
 using namespace std;
-using ll = long long;
-using P = pair<ll, ll>;
-
-#define rep(i, n) for (int i = 0; i < (int)(n); i++)
 
 int main()
 {
-    ll n, m;
-    cin >> n >> m;
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
 
-    vector<vector<P>> node(n);
-    rep(i, m)
+    int N, W;
+    cin >> N >> W;
+
+    vector<int> X(N), Y(N);
+    vector<vector<pair<int, int>>> blocks(W + 1);
+
+    for (int i = 0; i < N; i++)
     {
-        int u, v;
-        ll w;
-        cin >> u >> v >> w;
-        u--;
-        v--;
-        node[u].push_back({v, w});
-        node[v].push_back({u, w});
+        cin >> X[i] >> Y[i];
+        blocks[X[i]].emplace_back(Y[i], i);
     }
 
-    ll ans = 1LL << 61;
-    vector<bool> used(n);
+    vector<int> cnt(N);
+    vector<int> disappear(N + 1, -1);
 
-    auto dfs = [&](auto dfs, int cur, ll score)
+    for (int x = 1; x <= W; x++)
     {
-        if (cur == n - 1)
+        sort(blocks[x].begin(), blocks[x].end());
+        for (size_t j = 0; j < blocks[x].size(); j++)
         {
-            ans = min(ans, score);
-            return;
+            cnt[blocks[x][j].second] = j;
+            disappear[j] = max(disappear[j], blocks[x][j].first);
         }
-        used[cur] = true;
-        for (auto [to, cost] : node[cur])
-        {
-            if (used[to])
-                continue;
-            dfs(dfs, to, score ^ cost);
-        }
+        disappear[blocks[x].size()] = int(1e9 + 10);
+    }
 
-        used[cur] = false;
-    };
+    for (int i = 0; i < N; i++)
+    {
+        disappear[i + 1] = max(disappear[i + 1], disappear[i] + 1);
+    }
 
-    dfs(dfs, 0, 0);
-    cout << ans << endl;
+    int Q;
+    cin >> Q;
+    while (Q--)
+    {
+        int T, A;
+        cin >> T >> A;
+        A--;
+        cout << (T < disappear[cnt[A]] ? "Yes" : "No") << '\n';
+    }
 
     return 0;
 }
