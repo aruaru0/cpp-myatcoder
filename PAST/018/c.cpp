@@ -12,16 +12,16 @@ int main()
     for (int i = 0; i < t; i++)
     {
         bool signal1 = false;
-        if (i % (b1 + r1) < b1)
+        if ((i % (b1 + r1)) < b1)
         {
             signal1 = true;
         }
         bool signal2 = false;
-        if (i % (b2 + r2) < b2)
+        if ((i % (b2 + r2)) < b2)
         {
             signal2 = true;
         }
-        if (signal1 == signal2)
+        if (signal1 && signal2)
         {
             cnt++;
         }
