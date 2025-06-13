@@ -17,3 +17,4 @@ using namespace atcoder;
 
 ## 注意
 C++でのコード練習がメインなので、マクロはなるべく使わずにfor文などを書く
+
