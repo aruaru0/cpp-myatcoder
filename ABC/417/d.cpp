@@ -9,7 +9,7 @@ int main()
     vector<int> p(n), a(n), b(n);
     rep(i, n) cin >> p[i] >> a[i] >> b[i];
     const int m = 1001;
-    vector dp(n + 1, vector<int>(m));
+    vector<vector<int>> dp(n + 1, vector<int>(m));
     rep(i, m) dp[n][i] = i;
     for (int i = n - 1; i >= 0; i--)
     {
