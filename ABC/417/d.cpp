@@ -2,6 +2,12 @@
 using namespace std;
 #define rep(i, n) for (int i = 0; i < (n); ++i)
 
+ostream &operator<<(ostream &os, const vector<int> &v)
+{
+    rep(i, v.size()) os << v[i] << " ";
+    return os;
+}
+
 int main()
 {
     int n;
@@ -26,6 +32,9 @@ int main()
 
     vector<int> bs(n + 1);
     rep(i, n) bs[i + 1] = bs[i] + b[i];
+
+    cout << "----" << endl;
+    cout << bs << endl;
 
     int q;
     cin >> q;
