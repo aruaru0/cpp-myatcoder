@@ -36,7 +36,7 @@ int main()
     int Q;
     cin >> Q;
 
-    segtree<int, op, e> seg(Q);
+    segtree<int, op, e> seg(Q + 1);
     vector<char> s;
     int tot = 0;
     rep(qi, Q)
