@@ -46,16 +46,20 @@ int main()
     {
         int idx = a[cur];
         cnt[idx]++;
+
         if ((prev != -1 && ok[prev]) || cnt[idx] >= 2)
         {
             ok[cur] = true;
         }
+
         for (auto e : node[cur])
         {
             if (e == prev)
                 continue;
             dfs(dfs, e, cur);
         }
+
+        cnt[idx]--;
     };
 
     dfs(dfs, 0);
