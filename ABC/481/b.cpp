@@ -22,38 +22,29 @@ std::ostream &operator<<(std::ostream &os, const std::vector<T> &v)
 
 int main()
 {
-    string s[5];
+    int n, k;
+    cin >> n >> k;
 
-    rep(i, 5) cin >> s[i];
+    vector<int> a(n);
+    rep(i, n) cin >> a[i];
 
-    int ans = 5;
+    int cnt = 0;
+    int cur = a[0];
+    if (cur == k)
+        cnt++;
+
+    for (int i = 1; i < n; i++)
     {
-        rep(i, 5)
-        {
-            int c0 = 0, c1 = 0;
-            rep(j, 5)
-            {
-                if (s[i][j] == '.')
-                    c0++;
-                if (s[j][i] == '.')
-                    c1++;
-            }
-            ans = min(ans, min(c0, c1));
-        }
-    }
-    {
-        int c0 = 0, c1 = 0;
-        rep(i, 5)
-        {
-            if (s[i][i] == '.')
-                c0++;
-            if (s[i][4 - i] == '.')
-                c1++;
-        }
-        ans = min(ans, min(c0, c1));
+        if (a[i] == k)
+            cnt++;
+        else if (a[i] < k && cur > k)
+            cnt++;
+        else if (a[i] > k && cur < k)
+            cnt++;
+        cur = a[i];
     }
 
-    cout << ans << endl;
+    cout << cnt << endl;
 
     return 0;
 }
