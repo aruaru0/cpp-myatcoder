@@ -4,15 +4,23 @@ using namespace std;
 
 int main()
 {
-    int a, b;
-    cin >> a >> b;
-
-    if (a + b >= 10)
+    string s;
+    cin >> s;
+    int cnt = 0;
+    for (auto &c : s)
     {
-        cout << 2 << endl;
+        if (c == 'o')
+            cnt++;
+    }
+
+    if (cnt % 2 == 0)
+    {
+        cout << "even" << endl;
     }
     else
     {
-        cout << 1 << endl;
+        cout << "odd" << endl;
     }
+
+    return 0;
 }
